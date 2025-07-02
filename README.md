@@ -54,8 +54,9 @@ La interfaz incluye ejemplos de uso para todos los endpoints:
 3. En el cuerpo JSON:
    ```json
    {
-     "nombre": "Mi Producto",
-     "precio": 99.99
+     "producto": "Laptop Dell Inspiron",
+     "precio": 999.99,
+     "cantidad": 10
    }
    ```
 4. Click en **Enviar Petición**
@@ -66,8 +67,9 @@ La interfaz incluye ejemplos de uso para todos los endpoints:
 3. En el cuerpo JSON:
    ```json
    {
-     "nombre": "Producto Actualizado",
-     "precio": 149.99
+     "producto": "Laptop HP Actualizada",
+     "precio": 1299.99,
+     "cantidad": 5
    }
    ```
 4. Click en **Enviar Petición**
@@ -78,7 +80,8 @@ La interfaz incluye ejemplos de uso para todos los endpoints:
 3. En el cuerpo JSON (solo los campos que quieres cambiar):
    ```json
    {
-     "precio": 199.99
+     "precio": 899.99,
+     "cantidad": 15
    }
    ```
 4. Click en **Enviar Petición**
@@ -96,11 +99,70 @@ La interfaz maneja automáticamente:
 - **Errores HTTP** - 400, 404, 500, etc.
 - **Respuestas vacías** - cuando no hay datos
 
+## 📊 Estructura de la Base de Datos
+
+La tabla `productos` tiene los siguientes campos:
+
+| Campo | Tipo | Descripción | Requerido |
+|-------|------|-------------|-----------|
+| `id` | INTEGER | ID único (autoincremental) | ❌ Auto |
+| `producto` | TEXT | Nombre del producto | ✅ Sí |
+| `precio` | REAL | Precio del producto | ✅ Sí |
+| `cantidad` | INTEGER | Cantidad en stock | ✅ Sí |
+
+### Ejemplos de datos válidos:
+
+**Crear un producto nuevo:**
+```json
+{
+  "producto": "Laptop Dell Inspiron 15",
+  "precio": 999.99,
+  "cantidad": 5
+}
+```
+
+**Actualización completa (PUT):**
+```json
+{
+  "producto": "Mouse Logitech MX Master 3",
+  "precio": 89.99,
+  "cantidad": 25
+}
+```
+
+**Actualización parcial (PATCH):**
+```json
+{
+  "precio": 79.99
+}
+```
+
+### Validaciones importantes:
+- ✅ Todos los campos son **requeridos** para POST y PUT
+- ✅ Para PATCH puedes enviar solo los campos que quieres actualizar
+- ✅ El campo `precio` debe ser un número (puede tener decimales)
+- ✅ El campo `cantidad` debe ser un número entero
+- ✅ El campo `producto` debe ser texto no vacío
+- ❌ El campo `id` se genera automáticamente, no lo incluyas
+
 ## 📋 Tecnologías
 
 - **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
 - **Backend:** Node.js, Express
 - **Base de datos:** SQLite3
 - **Estilo:** CSS Grid, Flexbox, Gradientes modernos
+
+## 🚀 Inicio Rápido
+
+```bash
+# 1. Instalar dependencias
+npm install
+
+# 2. Iniciar servidor
+npm start
+
+# 3. Abrir navegador
+# http://localhost:3000
+```
 
 ¡Disfruta probando tu API! 🎉
