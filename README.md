@@ -21,9 +21,9 @@ Una interfaz web simple para probar tu API de productos.
 ## 📱 Características
 
 ### ✨ Interfaz Simple
-- **Selecciona el método HTTP** (GET, POST, PUT, DELETE)
+- **Selecciona el método HTTP** (GET, POST, PUT, PATCH, DELETE)
 - **Escribe el endpoint** (ej: `/productos`, `/productos/1`)
-- **Agrega datos JSON** para POST y PUT
+- **Agrega datos JSON** para POST, PUT y PATCH
 - **Envía la petición** con un click
 
 ### 🔍 Visualización de Respuestas
@@ -37,7 +37,8 @@ La interfaz incluye ejemplos de uso para todos los endpoints:
 - `GET /productos` - Ver todos los productos
 - `GET /productos/1` - Ver un producto específico
 - `POST /productos` - Crear nuevo producto
-- `PUT /productos/1` - Actualizar producto
+- `PUT /productos/1` - Actualizar producto completo
+- `PATCH /productos/1` - Actualizar producto parcialmente
 - `DELETE /productos/1` - Eliminar producto
 
 ## 🛠️ Cómo Usar
@@ -59,7 +60,7 @@ La interfaz incluye ejemplos de uso para todos los endpoints:
    ```
 4. Click en **Enviar Petición**
 
-### Para actualizar un producto:
+### Para actualizar un producto completo:
 1. Selecciona **PUT**
 2. Endpoint: `/productos/1` (reemplaza 1 con el ID real)
 3. En el cuerpo JSON:
@@ -67,6 +68,17 @@ La interfaz incluye ejemplos de uso para todos los endpoints:
    {
      "nombre": "Producto Actualizado",
      "precio": 149.99
+   }
+   ```
+4. Click en **Enviar Petición**
+
+### Para actualizar un producto parcialmente:
+1. Selecciona **PATCH**
+2. Endpoint: `/productos/1` (reemplaza 1 con el ID real)
+3. En el cuerpo JSON (solo los campos que quieres cambiar):
+   ```json
+   {
+     "precio": 199.99
    }
    ```
 4. Click en **Enviar Petición**

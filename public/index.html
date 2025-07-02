@@ -270,7 +270,8 @@
                     <select id="method">
                         <option value="GET">GET - Obtener datos</option>
                         <option value="POST">POST - Crear nuevo</option>
-                        <option value="PUT">PUT - Actualizar</option>
+                        <option value="PUT">PUT - Actualizar completo</option>
+                        <option value="PATCH">PATCH - Actualizar parcial</option>
                         <option value="DELETE">DELETE - Eliminar</option>
                     </select>
                 </div>
@@ -295,7 +296,8 @@
                     <div class="example-item">GET /productos - Ver todos los productos</div>
                     <div class="example-item">GET /productos/1 - Ver producto con ID 1</div>
                     <div class="example-item">POST /productos - Crear producto nuevo</div>
-                    <div class="example-item">PUT /productos/1 - Actualizar producto ID 1</div>
+                    <div class="example-item">PUT /productos/1 - Actualizar producto completo</div>
+                    <div class="example-item">PATCH /productos/1 - Actualizar parcialmente</div>
                     <div class="example-item">DELETE /productos/1 - Eliminar producto ID 1</div>
                 </div>
             </div>
@@ -347,8 +349,8 @@
                     }
                 };
                 
-                // Add body for POST and PUT requests
-                if ((method === 'POST' || method === 'PUT') && body.trim()) {
+                // Add body for POST, PUT, and PATCH requests
+                if ((method === 'POST' || method === 'PUT' || method === 'PATCH') && body.trim()) {
                     try {
                         JSON.parse(body); // Validate JSON
                         options.body = body;
@@ -418,9 +420,13 @@
                 bodyField.placeholder = 'No se necesita cuerpo para ' + method;
             } else {
                 bodyField.disabled = false;
-                bodyField.placeholder = method === 'POST' ? 
-                    '{"nombre": "Producto nuevo", "precio": 99.99}' : 
-                    '{"nombre": "Producto actualizado", "precio": 149.99}';
+                if (method === 'POST') {
+                    bodyField.placeholder = '{"nombre": "Producto nuevo", "precio": 99.99}';
+                } else if (method === 'PUT') {
+                    bodyField.placeholder = '{"nombre": "Producto actualizado", "precio": 149.99}';
+                } else if (method === 'PATCH') {
+                    bodyField.placeholder = '{"precio": 199.99}';
+                }
             }
         });
         
