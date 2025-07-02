@@ -54,8 +54,9 @@ La interfaz incluye ejemplos de uso para todos los endpoints:
 3. En el cuerpo JSON:
    ```json
    {
-     "nombre": "Mi Producto",
-     "precio": 99.99
+     "producto": "Laptop Dell Inspiron",
+     "precio": 999.99,
+     "cantidad": 10
    }
    ```
 4. Click en **Enviar Petición**
@@ -66,8 +67,9 @@ La interfaz incluye ejemplos de uso para todos los endpoints:
 3. En el cuerpo JSON:
    ```json
    {
-     "nombre": "Producto Actualizado",
-     "precio": 149.99
+     "producto": "Laptop HP Actualizada",
+     "precio": 1299.99,
+     "cantidad": 5
    }
    ```
 4. Click en **Enviar Petición**
@@ -78,7 +80,8 @@ La interfaz incluye ejemplos de uso para todos los endpoints:
 3. En el cuerpo JSON (solo los campos que quieres cambiar):
    ```json
    {
-     "precio": 199.99
+     "precio": 899.99,
+     "cantidad": 15
    }
    ```
 4. Click en **Enviar Petición**
@@ -96,7 +99,36 @@ La interfaz maneja automáticamente:
 - **Errores HTTP** - 400, 404, 500, etc.
 - **Respuestas vacías** - cuando no hay datos
 
-## 📋 Tecnologías
+## � Estructura de la Base de Datos
+
+La tabla `productos` tiene los siguientes campos:
+
+| Campo | Tipo | Descripción | Requerido |
+|-------|------|-------------|-----------|
+| `id` | INTEGER | ID único (autoincremental) | ❌ Auto |
+| `producto` | TEXT | Nombre del producto | ✅ Sí |
+| `precio` | REAL | Precio del producto | ✅ Sí |
+| `cantidad` | INTEGER | Cantidad en stock | ✅ Sí |
+
+### Ejemplos de datos válidos:
+
+```json
+{
+  "producto": "Laptop Dell Inspiron 15",
+  "precio": 999.99,
+  "cantidad": 5
+}
+```
+
+```json
+{
+  "producto": "Mouse Logitech MX Master",
+  "precio": 89.99,
+  "cantidad": 25
+}
+```
+
+## �📋 Tecnologías
 
 - **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
 - **Backend:** Node.js, Express

@@ -286,7 +286,7 @@
                 
                 <div class="form-group">
                     <label for="body">Cuerpo de la petición (JSON):</label>
-                    <textarea id="body" placeholder='{"nombre": "Producto nuevo", "precio": 99.99}'></textarea>
+                    <textarea id="body" placeholder='{"producto": "Laptop Dell", "precio": 999.99, "cantidad": 10}'></textarea>
                 </div>
                 
                 <button class="btn" onclick="makeRequest()">Enviar Petición</button>
@@ -299,6 +299,12 @@
                     <div class="example-item">PUT /productos/1 - Actualizar producto completo</div>
                     <div class="example-item">PATCH /productos/1 - Actualizar parcialmente</div>
                     <div class="example-item">DELETE /productos/1 - Eliminar producto ID 1</div>
+                    
+                    <h4 style="margin-top: 15px;">📋 Campos disponibles:</h4>
+                    <div class="example-item"><strong>producto</strong> (texto) - Nombre del producto</div>
+                    <div class="example-item"><strong>precio</strong> (número) - Precio del producto</div>
+                    <div class="example-item"><strong>cantidad</strong> (entero) - Stock disponible</div>
+                    <div class="example-item"><strong>id</strong> (auto) - Se genera automáticamente</div>
                 </div>
             </div>
             
@@ -421,11 +427,11 @@
             } else {
                 bodyField.disabled = false;
                 if (method === 'POST') {
-                    bodyField.placeholder = '{"nombre": "Producto nuevo", "precio": 99.99}';
+                    bodyField.placeholder = '{"producto": "Laptop Dell", "precio": 999.99, "cantidad": 10}';
                 } else if (method === 'PUT') {
-                    bodyField.placeholder = '{"nombre": "Producto actualizado", "precio": 149.99}';
+                    bodyField.placeholder = '{"producto": "Laptop HP Actualizada", "precio": 1299.99, "cantidad": 5}';
                 } else if (method === 'PATCH') {
-                    bodyField.placeholder = '{"precio": 199.99}';
+                    bodyField.placeholder = '{"precio": 899.99, "cantidad": 15}';
                 }
             }
         });
