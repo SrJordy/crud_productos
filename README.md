@@ -99,7 +99,7 @@ La interfaz maneja automáticamente:
 - **Errores HTTP** - 400, 404, 500, etc.
 - **Respuestas vacías** - cuando no hay datos
 
-## � Estructura de la Base de Datos
+## 📊 Estructura de la Base de Datos
 
 La tabla `productos` tiene los siguientes campos:
 
@@ -112,6 +112,7 @@ La tabla `productos` tiene los siguientes campos:
 
 ### Ejemplos de datos válidos:
 
+**Crear un producto nuevo:**
 ```json
 {
   "producto": "Laptop Dell Inspiron 15",
@@ -120,19 +121,48 @@ La tabla `productos` tiene los siguientes campos:
 }
 ```
 
+**Actualización completa (PUT):**
 ```json
 {
-  "producto": "Mouse Logitech MX Master",
+  "producto": "Mouse Logitech MX Master 3",
   "precio": 89.99,
   "cantidad": 25
 }
 ```
 
-## �📋 Tecnologías
+**Actualización parcial (PATCH):**
+```json
+{
+  "precio": 79.99
+}
+```
+
+### Validaciones importantes:
+- ✅ Todos los campos son **requeridos** para POST y PUT
+- ✅ Para PATCH puedes enviar solo los campos que quieres actualizar
+- ✅ El campo `precio` debe ser un número (puede tener decimales)
+- ✅ El campo `cantidad` debe ser un número entero
+- ✅ El campo `producto` debe ser texto no vacío
+- ❌ El campo `id` se genera automáticamente, no lo incluyas
+
+## 📋 Tecnologías
 
 - **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
 - **Backend:** Node.js, Express
 - **Base de datos:** SQLite3
 - **Estilo:** CSS Grid, Flexbox, Gradientes modernos
+
+## 🚀 Inicio Rápido
+
+```bash
+# 1. Instalar dependencias
+npm install
+
+# 2. Iniciar servidor
+npm start
+
+# 3. Abrir navegador
+# http://localhost:3000
+```
 
 ¡Disfruta probando tu API! 🎉
