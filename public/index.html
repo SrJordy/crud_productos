@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Testing Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .request-panel, .response-panel {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid #e9ecef;
+        }
+
+        .panel-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .url-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .base-url {
+            background: #e9ecef;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .endpoint-input {
+            flex: 1;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .response-container {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .response-header {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .response-body {
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            background: white;
+        }
+
+        .error-display {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #dc3545;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e9ecef;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .examples {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .examples h4 {
+            margin-bottom: 10px;
+            color: #1976D2;
+        }
+
+        .example-item {
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .url-input {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .base-url {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 API Testing Interface</h1>
+            <p>Interfaz simple para probar tu API de productos</p>
+        </div>
+        
+        <div class="content">
+            <div class="request-panel">
+                <h2 class="panel-title">📤 Hacer Petición</h2>
+                
+                <div class="form-group">
+                    <label for="method">Método HTTP:</label>
+                    <select id="method">
+                        <option value="GET">GET - Obtener datos</option>
+                        <option value="POST">POST - Crear nuevo</option>
+                        <option value="PUT">PUT - Actualizar</option>
+                        <option value="DELETE">DELETE - Eliminar</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="endpoint">Endpoint:</label>
+                    <div class="url-input">
+                        <div class="base-url">http://localhost:3000</div>
+                        <input type="text" id="endpoint" class="endpoint-input" placeholder="/productos" value="/productos">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="body">Cuerpo de la petición (JSON):</label>
+                    <textarea id="body" placeholder='{"nombre": "Producto nuevo", "precio": 99.99}'></textarea>
+                </div>
+                
+                <button class="btn" onclick="makeRequest()">Enviar Petición</button>
+                
+                <div class="examples">
+                    <h4>💡 Ejemplos de uso:</h4>
+                    <div class="example-item">GET /productos - Ver todos los productos</div>
+                    <div class="example-item">GET /productos/1 - Ver producto con ID 1</div>
+                    <div class="example-item">POST /productos - Crear producto nuevo</div>
+                    <div class="example-item">PUT /productos/1 - Actualizar producto ID 1</div>
+                    <div class="example-item">DELETE /productos/1 - Eliminar producto ID 1</div>
+                </div>
+            </div>
+            
+            <div class="response-panel">
+                <h2 class="panel-title">📥 Respuesta</h2>
+                
+                <div class="response-container">
+                    <div class="response-header">
+                        <span>Estado:</span>
+                        <span id="status" class="status-badge">Esperando petición...</span>
+                    </div>
+                    <div class="response-body" id="responseBody">
+                        <div style="text-align: center; color: #666; padding: 40px;">
+                            Haz una petición para ver la respuesta aquí 👆
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="errorContainer" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function makeRequest() {
+            const method = document.getElementById('method').value;
+            const endpoint = document.getElementById('endpoint').value;
+            const body = document.getElementById('body').value;
+            const statusElement = document.getElementById('status');
+            const responseBodyElement = document.getElementById('responseBody');
+            const errorContainer = document.getElementById('errorContainer');
+            
+            // Reset previous states
+            errorContainer.style.display = 'none';
+            errorContainer.innerHTML = '';
+            
+            // Show loading state
+            statusElement.textContent = 'Cargando...';
+            statusElement.className = 'status-badge';
+            responseBodyElement.innerHTML = '<div class="loading"><div class="spinner"></div>Enviando petición...</div>';
+            
+            try {
+                const url = `http://localhost:3000${endpoint}`;
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                // Add body for POST and PUT requests
+                if ((method === 'POST' || method === 'PUT') && body.trim()) {
+                    try {
+                        JSON.parse(body); // Validate JSON
+                        options.body = body;
+                    } catch (e) {
+                        throw new Error('El cuerpo debe ser un JSON válido');
+                    }
+                }
+                
+                const response = await fetch(url, options);
+                const responseData = await response.text();
+                
+                // Update status
+                statusElement.textContent = `${response.status} ${response.statusText}`;
+                statusElement.className = `status-badge ${response.ok ? 'status-success' : 'status-error'}`;
+                
+                // Try to parse as JSON for better formatting
+                let formattedResponse;
+                try {
+                    const jsonData = JSON.parse(responseData);
+                    formattedResponse = JSON.stringify(jsonData, null, 2);
+                } catch (e) {
+                    formattedResponse = responseData;
+                }
+                
+                responseBodyElement.innerHTML = `<pre>${escapeHtml(formattedResponse)}</pre>`;
+                
+                // Show error details if not successful
+                if (!response.ok) {
+                    showError(`Error ${response.status}: ${response.statusText}`, formattedResponse);
+                }
+                
+            } catch (error) {
+                statusElement.textContent = 'Error de Conexión';
+                statusElement.className = 'status-badge status-error';
+                responseBodyElement.innerHTML = '<div style="color: #dc3545;">No se pudo conectar con el servidor</div>';
+                showError('Error de conexión', error.message);
+            }
+        }
+        
+        function showError(title, details) {
+            const errorContainer = document.getElementById('errorContainer');
+            errorContainer.style.display = 'block';
+            errorContainer.innerHTML = `
+                <div class="error-display">
+                    <strong>❌ ${title}</strong><br>
+                    <div style="margin-top: 8px; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                        ${escapeHtml(details)}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Auto-clear body when switching to GET or DELETE
+        document.getElementById('method').addEventListener('change', function() {
+            const method = this.value;
+            const bodyField = document.getElementById('body');
+            
+            if (method === 'GET' || method === 'DELETE') {
+                bodyField.value = '';
+                bodyField.disabled = true;
+                bodyField.placeholder = 'No se necesita cuerpo para ' + method;
+            } else {
+                bodyField.disabled = false;
+                bodyField.placeholder = method === 'POST' ? 
+                    '{"nombre": "Producto nuevo", "precio": 99.99}' : 
+                    '{"nombre": "Producto actualizado", "precio": 149.99}';
+            }
+        });
+        
+        // Initialize
+        document.getElementById('method').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
